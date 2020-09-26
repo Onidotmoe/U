@@ -9,16 +9,45 @@ Public Module ImageProcessing
     ''' <summary>Crops the Bitmap to the specified width and height and returns a new bitmap.</summary>
     <Extension>
     Public Function Crop(Bitmap As Drawing.Bitmap, Width As Integer, Height As Integer) As Drawing.Bitmap
-        Using Result As Drawing.Bitmap = CreateBitmap(Width, Height)
-            Using Graphics = Drawing.Graphics.FromImage(Result)
-                Graphics.DrawImage(Bitmap, 0, 0, New Drawing.Rectangle(0, 0, Width, Height), Drawing.GraphicsUnit.Pixel)
-                Graphics.Save()
-            End Using
+        Dim Result As Drawing.Bitmap = CreateBitmap(Width, Height)
 
-            Return New Drawing.Bitmap(Result)
+        Using Graphics = Drawing.Graphics.FromImage(Result)
+            Graphics.DrawImage(Bitmap, 0, 0, New Drawing.Rectangle(0, 0, Width, Height), Drawing.GraphicsUnit.Pixel)
+            Graphics.Save()
         End Using
-    End Function
 
+        Return Result
+    End Function
+    ''' <summary>Scales the Bitmap but centers the Newly Scaled Bitmap inside the old Bitmap's dimensions.</summary>
+    <Extension>
+    Public Function ScaleCenter(Bitmap As Drawing.Bitmap, Width As Integer, Height As Integer) As Drawing.Bitmap
+        Dim Result = New Drawing.Bitmap(Bitmap.Width, Bitmap.Height)
+        Dim Scaled = Bitmap.Scale(Width, Height)
+        Dim X As Integer = CInt((Result.Width / 2) - (Scaled.Width / 2))
+        Dim Y As Integer = CInt((Result.Height / 2) - (Scaled.Height / 2))
+
+        Using Graphics = Drawing.Graphics.FromImage(Result)
+            Graphics.DrawImage(Bitmap, X, Y, Scaled.Width, Scaled.Height)
+        End Using
+
+        Return Result
+    End Function
+    ''' <summary>Scales the Bitmap to the new Width and Height while maintaining Aspect Ratio.</summary>
+    <Extension>
+    Public Function Scale(Bitmap As Drawing.Bitmap, Width As Integer, Height As Integer) As Drawing.Bitmap
+        Dim RatioX As Double = (Width / Bitmap.Width)
+        Dim RatioY As Double = (Height / Bitmap.Height)
+        Dim Ratio = Math.Min(RatioX, RatioY)
+        Dim New_Width = CInt(Bitmap.Width * Ratio)
+        Dim New_Height = CInt(Bitmap.Height * Ratio)
+        Dim Result = New Drawing.Bitmap(Width, Height)
+
+        Using Graphics = Drawing.Graphics.FromImage(Result)
+            Graphics.DrawImage(Bitmap, New_Width, New_Height)
+        End Using
+
+        Return Result
+    End Function
     ''' <summary>Creates a new System.Drawing.Bitmap with specified parameters.</summary>
     ''' <param name="Width">Actual Width of the bitmap.</param>
     ''' <param name="Height">Actual Height of the bitmap.</param>
@@ -82,6 +111,7 @@ Public Module ImageProcessing
         Next
 
         Texture.SetData(Data)
+
         Return Texture
     End Function
 
@@ -103,6 +133,7 @@ Public Module ImageProcessing
         End If
 
         Texture.SetData(Data)
+
         Return Texture
     End Function
     Function BitmapToByteArrayLockBits(Bitmap As Drawing.Bitmap) As Byte()
@@ -135,7 +166,7 @@ Public Module ImageProcessing
 
         Return Result
     End Function
-    ''' <summary>Significantly slower than LockBits but faster than SetData.</summary>
+    ''' <summary>Significantly Slower than LockBits but faster than SetData.</summary>
     Function BitmapToTexture2DMemoryStream(Bitmap As Drawing.Bitmap, Device As GraphicsDevice) As Texture2D
         Dim Result As Texture2D = Nothing
         Using MemoryStream As MemoryStream = New MemoryStream
@@ -146,7 +177,6 @@ Public Module ImageProcessing
 
         Return Result
     End Function
-
     Function BitmapToColorArray(Bitmap As Drawing.Bitmap) As Drawing.Color()
         Dim Color() As Drawing.Color = New Drawing.Color(Bitmap.Size.Width * Bitmap.Size.Height - 1) {}
 
@@ -155,6 +185,7 @@ Public Module ImageProcessing
                 Color((Bitmap.Size.Width * Y) + X) = Bitmap.GetPixel(X, Y)
             Next
         Next
+
         Return Color
     End Function
     Function BitmapToColorArrayMonogame(Bitmap As Drawing.Bitmap) As Microsoft.Xna.Framework.Color()
@@ -165,6 +196,7 @@ Public Module ImageProcessing
                 Color((Bitmap.Size.Width * Y) + X) = SystemColorToMonogame(Bitmap.GetPixel(X, Y))
             Next
         Next
+
         Return Color
     End Function
     Function SystemColorToMonogame(Color As System.Drawing.Color) As Microsoft.Xna.Framework.Color
@@ -181,14 +213,28 @@ Public Module ImageProcessing
         Return Result
     End Function
     Function Texture2DToBitmapLockBits(Texture As Texture2D) As Drawing.Bitmap
+        Dim PixelData As Integer() = New Integer(Texture.Width * Texture.Height - 1) {}
+        Texture.GetData(PixelData)
         Dim Rectangle As New Drawing.Rectangle(0, 0, Texture.Width, Texture.Height)
         Dim Bitmap As New Drawing.Bitmap(Texture.Height, Texture.Width)
         Dim Data As BitmapData = Bitmap.LockBits(Rectangle, ImageLockMode.ReadWrite, Bitmap.PixelFormat)
-        Dim NumBytes As Integer = (Data.Stride * Bitmap.Height)
-        Dim Bytes As Byte() = New Byte(NumBytes - 1) {}
-        System.Runtime.InteropServices.Marshal.Copy(Data.Scan0, Bytes, 0, NumBytes)
+        System.Runtime.InteropServices.Marshal.Copy(PixelData, 0, Data.Scan0, PixelData.Length)
         Bitmap.UnlockBits(Data)
 
         Return Bitmap
+    End Function
+    ''' <summary>TODO : FIX - DOES NOT WORK!</summary>
+    Function ByteArrayToBitmapMemoryStream(Bytes As Byte()) As Drawing.Bitmap
+        Dim Bitmap As Drawing.Bitmap = Nothing
+
+        Using MemoryStream As New MemoryStream(Bytes)
+            Bitmap = New Drawing.Bitmap(MemoryStream)
+        End Using
+
+        Return Bitmap
+    End Function
+    ''' <summary>TODO : FIX - DOES NOT WORK!</summary>
+    Function ByteArrayToBitmapImageConverter(Bytes As Byte()) As Drawing.Bitmap
+        Return DirectCast(New Drawing.ImageConverter().ConvertFrom(Bytes), Drawing.Bitmap)
     End Function
 End Module

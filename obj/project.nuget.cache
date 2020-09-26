@@ -1,0 +1,14 @@
+{
+  "version": 2,
+  "dgSpecHash": "eiFo3to57gm0dp6tIUO0vBV32oITcIVzZW6GDlB+hiVat92MP3AwHltpXD8OuzexArXzKWhULkQFzVDqZsgq3Q==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\Yami\\source\\repos\\U\\U\\U.vbproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\Yami\\.nuget\\packages\\microsoft.netcore.platforms\\3.1.0\\microsoft.netcore.platforms.3.1.0.nupkg.sha512",
+    "C:\\Users\\Yami\\.nuget\\packages\\microsoft.win32.systemevents\\4.7.0\\microsoft.win32.systemevents.4.7.0.nupkg.sha512",
+    "C:\\Users\\Yami\\.nuget\\packages\\monogame.framework.desktopgl\\3.8.0.1641\\monogame.framework.desktopgl.3.8.0.1641.nupkg.sha512",
+    "C:\\Users\\Yami\\.nuget\\packages\\system.drawing.common\\4.7.0\\system.drawing.common.4.7.0.nupkg.sha512",
+    "C:\\Users\\Yami\\.nuget\\packages\\system.windows.extensions\\4.7.0\\system.windows.extensions.4.7.0.nupkg.sha512"
+  ],
+  "logs": []
+}

@@ -127,5 +127,16 @@ Public Module Tools
     '        Return True
     '    End If
     'End Function
+    Public Function IsNullOrDefaultValue([Object] As Object) As Boolean
+        Return ([Object] Is Nothing) OrElse ([Object].GetType.IsValueType AndAlso ([Object] Is Nothing))
+    End Function
+
+    ''' <summary>Returns a the number that's the Nearest multiplier of specified Number</summary>
+    Public Function RoundToNearest(Number As Double, Nearest As Double) As Double
+        Return (Math.Ceiling(Number / Nearest) * Nearest)
+    End Function
+    Public Function DescendingComparer() As Comparer(Of Integer)
+        Return Comparer(Of Integer).Create(Function(X, Y) Y.CompareTo(X))
+    End Function
 
 End Module

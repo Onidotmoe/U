@@ -1,5 +1,6 @@
 ﻿Imports System.Collections.Concurrent
 Imports System.Runtime.CompilerServices
+Imports Microsoft.Xna.Framework
 
 Public Module Extensions
 
@@ -43,5 +44,16 @@ Public Module Extensions
             Yield Item
         Next
     End Function
+
+    <Extension()>
+    Function ToVector(Point As Point) As Vector2
+        Return New Vector2(Point.X, Point.Y)
+    End Function
+    <Extension>
+    Public Sub AddRange(Of T)(Bag As ConcurrentBag(Of T), Range As IEnumerable(Of T))
+        For Each Item In Range
+            Bag.Add(Item)
+        Next
+    End Sub
 
 End Module
