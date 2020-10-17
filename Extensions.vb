@@ -56,4 +56,24 @@ Public Module Extensions
         Next
     End Sub
 
+    ''' <summary>
+    ''' Compares an Object to an Array of Objects and returns True if any are Equal.
+    ''' </summary>
+    ''' <param name="[Object]">Object to Compare Against.</param>
+    ''' <param name="Objects">Array of Objects of same Type to Compare.</param>
+    ''' <returns>True if Any of the Objects in the Array are Equal to the given Object.</returns>
+    <Extension>
+    Public Function EqualsAny(Of T)([Object] As T, ParamArray Objects As T()) As Boolean
+        Return Objects.Any(Function(F) [Object].Equals(F))
+    End Function
+    ''' <summary>
+    ''' Compares an Object to an Array of Objects and returns True if None are Equal.
+    ''' </summary>
+    ''' <param name="[Object]">Object to Compare Against.</param>
+    ''' <param name="Objects">Array of Objects of same Type to Compare.</param>
+    ''' <returns>True if None of the Objects in the Array are Equal to the given Object.</returns>
+    <Extension>
+    Public Function EqualsNone(Of T)([Object] As T, ParamArray Objects As T()) As Boolean
+        Return Objects.None(Function(F) [Object].Equals(F))
+    End Function
 End Module

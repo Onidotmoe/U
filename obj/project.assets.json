@@ -265,11 +265,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Yami\\source\\repos\\U\\U\\U.vbproj",
+      "projectUniqueName": "C:\\Users\\Yami\\source\\repos\\VampireMonkey\\U\\U.vbproj",
       "projectName": "U",
-      "projectPath": "C:\\Users\\Yami\\source\\repos\\U\\U\\U.vbproj",
+      "projectPath": "C:\\Users\\Yami\\source\\repos\\VampireMonkey\\U\\U.vbproj",
       "packagesPath": "C:\\Users\\Yami\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Yami\\source\\repos\\U\\U\\obj\\",
+      "outputPath": "C:\\Users\\Yami\\source\\repos\\VampireMonkey\\U\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"

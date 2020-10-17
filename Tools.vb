@@ -1,4 +1,5 @@
 ﻿Imports System.IO
+Imports System.Reflection
 Imports System.Runtime.Serialization.Formatters.Binary
 
 Public Module Tools
@@ -23,7 +24,7 @@ Public Module Tools
     ''IfAlso
 
     ''' <summary>
-    ''' If object isnot nothing then commit action.
+    ''' If Object IsNot Nothing then commit Action.
     ''' </summary>
     Sub IfNot([Object] As Object, [Action] As Action)
         If ([Object] IsNot Nothing) Then
@@ -32,7 +33,7 @@ Public Module Tools
     End Sub
 
     ''' <summary>
-    ''' If object isnot nothing then return result.
+    ''' If Object IsNot Nothing then return result, otherwise return Nothing.
     ''' </summary>
     Function IfNot(Of T)([Object] As Object, Result As T) As T
         If ([Object] IsNot Nothing) Then
@@ -138,5 +139,7 @@ Public Module Tools
     Public Function DescendingComparer() As Comparer(Of Integer)
         Return Comparer(Of Integer).Create(Function(X, Y) Y.CompareTo(X))
     End Function
+
+
 
 End Module

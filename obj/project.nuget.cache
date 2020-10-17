@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "eiFo3to57gm0dp6tIUO0vBV32oITcIVzZW6GDlB+hiVat92MP3AwHltpXD8OuzexArXzKWhULkQFzVDqZsgq3Q==",
+  "dgSpecHash": "DZX1ZH68haSr5nJ4fzp6t6atsWek5D9qJ3bJlEpedqxes7EDlyXCmsNXwEKETpNkEqVqjkfw53dXMuZGsE0w5Q==",
   "success": true,
-  "projectFilePath": "C:\\Users\\Yami\\source\\repos\\U\\U\\U.vbproj",
+  "projectFilePath": "C:\\Users\\Yami\\source\\repos\\VampireMonkey\\U\\U.vbproj",
   "expectedPackageFiles": [
     "C:\\Users\\Yami\\.nuget\\packages\\microsoft.netcore.platforms\\3.1.0\\microsoft.netcore.platforms.3.1.0.nupkg.sha512",
     "C:\\Users\\Yami\\.nuget\\packages\\microsoft.win32.systemevents\\4.7.0\\microsoft.win32.systemevents.4.7.0.nupkg.sha512",

@@ -7,3 +7,12 @@ C:\Users\Yami\source\repos\U\U\obj\Debug\netcoreapp3.1\U.AssemblyInfo.vb
 C:\Users\Yami\source\repos\U\U\obj\Debug\netcoreapp3.1\U.vbproj.CoreCompileInputs.cache
 C:\Users\Yami\source\repos\U\U\obj\Debug\netcoreapp3.1\U.dll
 C:\Users\Yami\source\repos\U\U\obj\Debug\netcoreapp3.1\U.pdb
+C:\Users\Yami\source\repos\VampireMonkey\U\bin\Debug\netcoreapp3.1\U.deps.json
+C:\Users\Yami\source\repos\VampireMonkey\U\bin\Debug\netcoreapp3.1\U.dll
+C:\Users\Yami\source\repos\VampireMonkey\U\bin\Debug\netcoreapp3.1\U.pdb
+C:\Users\Yami\source\repos\VampireMonkey\U\obj\Debug\netcoreapp3.1\U.AssemblyInfoInputs.cache
+C:\Users\Yami\source\repos\VampireMonkey\U\obj\Debug\netcoreapp3.1\U.AssemblyInfo.vb
+C:\Users\Yami\source\repos\VampireMonkey\U\obj\Debug\netcoreapp3.1\U.dll
+C:\Users\Yami\source\repos\VampireMonkey\U\obj\Debug\netcoreapp3.1\U.pdb
+C:\Users\Yami\source\repos\VampireMonkey\U\obj\Debug\netcoreapp3.1\U.vbproj.CoreCompileInputs.cache
+C:\Users\Yami\source\repos\VampireMonkey\U\obj\Debug\netcoreapp3.1\U.vbprojAssemblyReference.cache

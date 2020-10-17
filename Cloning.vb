@@ -4,94 +4,115 @@ Imports System.Runtime.CompilerServices
 Public Module Cloning
 
     <Extension()>
-    Function GetUnderlyingType(ByVal member As MemberInfo) As Type
-        Dim type As Type
-        Select Case member.MemberType
+    Function GetUnderlyingType(Member As MemberInfo) As Type
+        Dim Type As Type
+
+        Select Case Member.MemberType
             Case MemberTypes.Field
-                type = (CType(member, FieldInfo)).FieldType
+                Type = (CType(Member, FieldInfo)).FieldType
             Case MemberTypes.[Property]
-                type = (CType(member, PropertyInfo)).PropertyType
+                Type = (CType(Member, PropertyInfo)).PropertyType
             Case MemberTypes.[Event]
-                type = (CType(member, EventInfo)).EventHandlerType
+                Type = (CType(Member, EventInfo)).EventHandlerType
             Case Else
-                Throw New ArgumentException("member must be if type FieldInfo, PropertyInfo or EventInfo", "member")
+                Throw New ArgumentException("Member must be if Type FieldInfo, PropertyInfo or EventInfo", "Member")
         End Select
 
-        Return If(Nullable.GetUnderlyingType(type), type)
+        Return If(Nullable.GetUnderlyingType(Type), Type)
     End Function
 
     <Extension()>
-    Function GetFieldsAndProperties(ByVal type As Type) As MemberInfo()
-        Dim fps As List(Of MemberInfo) = New List(Of MemberInfo)()
-        fps.AddRange(type.GetFields())
-        fps.AddRange(type.GetProperties())
-        fps = fps.OrderBy(Function(x) x.MetadataToken).ToList()
-        Return fps.ToArray()
+    Function GetFieldsAndProperties(Type As Type) As MemberInfo()
+        Dim Members As List(Of MemberInfo) = New List(Of MemberInfo)()
+
+        Members.AddRange(Type.GetFields())
+        Members.AddRange(Type.GetProperties())
+        Members = Members.OrderBy(Function(F) F.MetadataToken).ToList()
+
+        Return Members.ToArray()
     End Function
 
     <Extension()>
-    Function GetValue(ByVal member As MemberInfo, ByVal target As Object) As Object
-        If TypeOf member Is PropertyInfo Then
-            Return (DirectCast(member, PropertyInfo)).GetValue(target, Nothing)
-        ElseIf TypeOf member Is FieldInfo Then
-            Return (DirectCast(member, FieldInfo)).GetValue(target)
+    Function GetValue(Member As MemberInfo, Target As Object) As Object
+        If (TypeOf Member Is PropertyInfo) Then
+            Return (DirectCast(Member, PropertyInfo)).GetValue(Target, Nothing)
+
+        ElseIf (TypeOf Member Is FieldInfo) Then
+            Return (DirectCast(Member, FieldInfo)).GetValue(Target)
         Else
-            Throw New Exception("member must be either PropertyInfo or FieldInfo")
+            Throw New Exception("Member must be either PropertyInfo or FieldInfo")
         End If
     End Function
 
     <Extension()>
-    Sub SetValue(ByVal member As MemberInfo, ByVal target As Object, ByVal value As Object)
-        If TypeOf member Is PropertyInfo Then
-            DirectCast(member, PropertyInfo).SetValue(target, value, Nothing)
-        ElseIf TypeOf member Is FieldInfo Then
-            DirectCast(member, FieldInfo).SetValue(target, value)
+    Sub SetValue(Member As MemberInfo, Target As Object, Value As Object)
+        If (TypeOf Member Is PropertyInfo) Then
+            DirectCast(Member, PropertyInfo).SetValue(Target, Value, Nothing)
+
+        ElseIf (TypeOf Member Is FieldInfo) Then
+            DirectCast(Member, FieldInfo).SetValue(Target, Value)
         Else
             Throw New Exception("destinationMember must be either PropertyInfo or FieldInfo")
         End If
     End Sub
 
     <Extension()>
-    Function DeepClone(ByVal obj As Object) As Object
-        If obj Is Nothing Then Return Nothing
-        Dim type As Type = obj.[GetType]()
-        If TypeOf obj Is IList Then
-            Dim list As IList = (CType(obj, IList))
-            Dim newlist As IList = CType(Activator.CreateInstance(obj.[GetType](), list.Count), IList)
-            For Each elem As Object In list
-                newlist.Add(DeepClone(elem))
-            Next
-
-            Return newlist
+    Function DeepClone(Obj As Object) As Object
+        If Obj Is Nothing Then
+            Return Nothing
         End If
 
-        If type.IsValueType OrElse type = GetType(String) Then
-            Return obj
-        ElseIf type.IsArray Then
-            Dim elementType As Type = Type.[GetType](type.FullName.Replace("[]", String.Empty))
-            Dim array = TryCast(obj, Array)
-            Dim copied As Array = Array.CreateInstance(elementType, array.Length)
+        Dim Type As Type = Obj.[GetType]()
+
+        If (TypeOf Obj Is IList) Then
+            Dim List As IList = (CType(Obj, IList))
+            Dim Newlist As IList = CType(Activator.CreateInstance(Obj.[GetType](), List.Count), IList)
+
+            For Each Element As Object In List
+                Newlist.Add(DeepClone(Element))
+            Next
+
+            Return Newlist
+        End If
+
+        If (Type.IsValueType OrElse (Type = GetType(String))) Then
+            Return Obj
+
+        ElseIf Type.IsArray Then
+            Dim ElementType As Type = Type.[GetType](Type.FullName.Replace("[]", String.Empty))
+            Dim Array = TryCast(Obj, Array)
+            Dim Copied As Array = Array.CreateInstance(ElementType, Array.Length)
+
             For i As Integer = 0 To array.Length - 1
                 copied.SetValue(DeepClone(array.GetValue(i)), i)
             Next
 
-            Return Convert.ChangeType(copied, obj.[GetType]())
-        ElseIf type.IsClass Then
-            Dim toret As Object = Activator.CreateInstance(obj.[GetType]())
-            Dim fields As MemberInfo() = type.GetFieldsAndProperties()
-            For Each field As MemberInfo In fields
-                If field.Name = "parent" Then
+            Return Convert.ChangeType(copied, Obj.[GetType]())
+
+        ElseIf Type.IsClass Then
+            Dim Result As Object = Activator.CreateInstance(Obj.[GetType]())
+            Dim Fields As MemberInfo() = Type.GetFieldsAndProperties()
+
+            For Each Field As MemberInfo In Fields
+                If (Field.Name = "parent") Then
                     Continue For
                 End If
 
-                Dim fieldValue As Object = field.GetValue(obj)
-                If fieldValue Is Nothing Then Continue For
-                field.SetValue(toret, DeepClone(fieldValue))
+                Dim FieldValue As Object = Field.GetValue(Obj)
+
+                If (FieldValue Is Nothing) Then
+                    Continue For
+                End If
+
+                Field.SetValue(Result, DeepClone(FieldValue))
             Next
 
-            Return toret
+            Return Result
         Else
-            If Debugger.IsAttached Then Debugger.Break()
+            If Debugger.IsAttached Then
+                Debugger.Break()
+            End If
+
             Return Nothing
         End If
     End Function
