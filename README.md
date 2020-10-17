@@ -1,5 +1,5 @@
 # U
-A bunch of Utilities in VB.Net made by an amateur
+A bunch of Utilities in VB.Net.
 
 Monogame 3.8.0.1641 - .Net Core 3.1
 
